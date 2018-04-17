@@ -189,7 +189,7 @@ Ensure that a class body contains one blank line after its definition and before
 **Configuration:**
 
 * `apply_to_anonymous_classes` - should this fixer be applied to anonymous classes? If it is set to `false`, than
-  anonymous classes will be fixed to don't have empty lines around body. **Default**: `false`.
+  anonymous classes will be fixed to don't have empty lines around body. **Default**: `true`.
 
 * `blank_lines_count` - adjusts an amount of the blank lines. **Default**: `1`.
 
