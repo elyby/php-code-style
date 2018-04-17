@@ -1,0 +1,9 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->in(__DIR__);
+
+return \Ely\CS\Config::create([
+    // Disable it for const, 'cause ^7.0 compatibility
+    'visibility_required' => ['property', 'method'],
+])->setFinder($finder);

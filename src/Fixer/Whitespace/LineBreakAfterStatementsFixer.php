@@ -1,0 +1,163 @@
+<?php
+declare(strict_types=1);
+
+namespace Ely\CS\Fixer\Whitespace;
+
+use Ely\CS\Fixer\AbstractFixer;
+use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
+use PhpCsFixer\FixerDefinition\CodeSample;
+use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\Tokenizer\Token;
+use PhpCsFixer\Tokenizer\Tokens;
+use PhpCsFixer\Utils;
+use SplFileInfo;
+
+/**
+ * This is rewritten version of the original fixer created by @PedroTroller with improved cases validation and
+ * targeted to the PHP-CS-Fixer 2.11 version.
+ *
+ * @url https://github.com/PedroTroller/PhpCSFixer-Custom-Fixers/blob/affdf99f51/src/PedroTroller/CS/Fixer/CodingStyle/LineBreakBetweenStatementsFixer.php
+ *
+ * @author ErickSkrauch <erickskrauch@ely.by>
+ */
+final class LineBreakAfterStatementsFixer extends AbstractFixer implements WhitespacesAwareFixerInterface {
+
+    /**
+     * There is no 'do', 'cause the processing of the 'while' also includes do {} while (); construction
+     */
+    const STATEMENTS = [
+        T_IF,
+        T_SWITCH,
+        T_FOR,
+        T_FOREACH,
+        T_WHILE,
+    ];
+
+    /**
+     * @inheritdoc
+     */
+    public function getDefinition() {
+        return new FixerDefinition(
+            'Ensures that there is one blank line above the control statements',
+            [
+                new CodeSample(
+                    '<?php
+class Foo
+{
+    /**
+     * @return null
+     */
+    public function foo() {
+        do {
+            // ...
+        } while (true);
+        foreach (["foo", "bar"] as $str) {
+            // ...
+        }
+        if (true === false) {
+            // ...
+        }
+        foreach (["foo", "bar"] as $str) {
+            if ($str === "foo") {
+                // smth
+            }
+
+        }
+        while (true) {
+            // ...
+        }
+        switch("123") {
+            case "123":
+                break;
+        }
+        $a = "next statement";
+    }
+}
+'
+                ),
+            ]
+        );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isCandidate(Tokens $tokens) {
+        return $tokens->isAnyTokenKindsFound(self::STATEMENTS);
+    }
+
+    protected function applyFix(SplFileInfo $file, Tokens $tokens) {
+        foreach ($tokens as $index => $token) {
+            if (!$token->isGivenKind(self::STATEMENTS)) {
+                continue;
+            }
+
+            $endStatementIndex = $this->findStatementEnd($tokens, $index);
+            $nextStatementIndex = $tokens->getNextNonWhitespace($endStatementIndex);
+            if ($nextStatementIndex === null) {
+                continue;
+            }
+
+            if ($tokens[$nextStatementIndex]->equals('}')) {
+                $this->fixBlankLines($tokens, $endStatementIndex + 1, 0);
+                continue;
+            }
+
+            $this->fixBlankLines($tokens, $endStatementIndex + 1, 1);
+        }
+    }
+
+    private function fixBlankLines(Tokens $tokens, $index, $countLines) {
+        $content = $tokens[$index]->getContent();
+        // Apply fix only in the case when the count lines do not equals to expected
+        if (substr_count($content, "\n") === $countLines + 1) {
+            return;
+        }
+
+        // The final bit of the whitespace must be the next statement's indentation
+        $lines = Utils::splitLines($content);
+        $eol = $this->whitespacesConfig->getLineEnding();
+        $tokens[$index] = new Token([T_WHITESPACE, str_repeat($eol, $countLines + 1) . end($lines)]);
+    }
+
+    private function findStatementEnd(Tokens $tokens, int $index): int {
+        $nextIndex = $tokens->getNextMeaningfulToken($index);
+        $nextToken = $tokens[$nextIndex];
+
+        if ($nextToken->equals('(')) {
+            $parenthesisEndIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $nextIndex);
+            $possibleStartBraceIndex = $tokens->getNextNonWhitespace($parenthesisEndIndex);
+        } else {
+            $possibleStartBraceIndex = $nextIndex;
+        }
+
+        // `do {} while ();`
+        if ($tokens[$index]->isGivenKind(T_WHILE) && $tokens[$possibleStartBraceIndex]->equals(';')) {
+            return $possibleStartBraceIndex;
+        }
+
+        $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $possibleStartBraceIndex);
+        $nextStatementIndex = $tokens->getNextMeaningfulToken($blockEnd);
+        if ($nextStatementIndex === null) {
+            return $blockEnd;
+        }
+
+        // `if () {} elseif {}`
+        if ($tokens[$nextStatementIndex]->isGivenKind(T_ELSEIF)) {
+            return $this->findStatementEnd($tokens, $nextStatementIndex);
+        }
+
+        // `if () {} else if {}` or simple `if () {} else {}`
+        if ($tokens[$nextStatementIndex]->isGivenKind(T_ELSE)) {
+            $nextNextStatementIndex = $tokens->getNextMeaningfulToken($nextStatementIndex);
+            if ($tokens[$nextNextStatementIndex]->isGivenKind(T_IF)) {
+                return $this->findStatementEnd($tokens, $nextNextStatementIndex);
+            }
+
+            return $this->findStatementEnd($tokens, $nextStatementIndex);
+        }
+
+        return $blockEnd;
+    }
+
+}
