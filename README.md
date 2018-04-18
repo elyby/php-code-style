@@ -12,7 +12,7 @@ First of all install Ely.by PHP-CS-Fixer rules via composer with
 composer require --dev friendsofphp/php-cs-fixer ely/php-code-style
 ```
 
-Then create file `.php-cs` with following contents:
+Then create file `.php_cs` with following contents:
 
 ```php
 <?php
