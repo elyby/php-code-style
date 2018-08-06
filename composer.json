@@ -30,9 +30,6 @@
     "autoload-dev": {
         "psr-4": {
             "Ely\\CS\\Test\\": "tests/"
-        },
-        "files": [
-            "vendor/friendsofphp/php-cs-fixer/tests/Test/Constraint/SameStringsConstraint.php"
-        ]
+        }
     }
 }
