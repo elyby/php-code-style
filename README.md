@@ -261,3 +261,19 @@ an anonymous class declaration in a case when said class constructor doesn't con
 
 * `remove_for_anonymous_classes` - if its set to `true`, then braces for anonymous classes without constructor
   arguments will be removed. **Default**: `false`.
+
+### `Ely/remove_class_name_method_usages` (Yii2)
+
+Replaces Yii2 [`BaseObject::className()`](https://github.com/yiisoft/yii2/blob/e53fc0ded1/framework/base/BaseObject.php#L84)
+usages with native `::class` keyword, introduced in PHP 5.5.
+
+```diff
+--- Original
++++ New
+@@ @@
+  <?php
+  use common\models\User;
+  
+- $className = User::className();
++ $className = User::class;
+```

@@ -65,6 +65,7 @@ class Rules {
         'Ely/new_with_braces' => [
             'remove_for_anonymous_classes' => true,
         ],
+        'Ely/remove_class_name_method_usages' => true,
     ];
 
     public static function create(array $overwrittenRules = []): array {
