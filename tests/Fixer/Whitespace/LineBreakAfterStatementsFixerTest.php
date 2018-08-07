@@ -355,7 +355,7 @@ class Foo
             '<?php
 $a = "prev statement";
 foreach ($coordinates as $coordinate) {
-    [$x, $y] = explode(\',\', $coordinate);
+    $points = explode(",", $coordinate);
 }
 ',
         ];
