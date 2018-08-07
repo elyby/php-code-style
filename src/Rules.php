@@ -7,6 +7,9 @@ class Rules {
 
     private static $rules = [
         '@PSR2' => true,
+        'array_syntax' => [
+            'syntax' => 'short',
+        ],
         'binary_operator_spaces' => true,
         'braces' => [
             'position_after_functions_and_oop_constructs' => 'same',
