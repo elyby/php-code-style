@@ -86,6 +86,14 @@ class Foo
         return $tokens->isAnyTokenKindsFound(self::STATEMENTS);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getPriority() {
+        // for the best result should be run after the BracesFixer
+        return -26;
+    }
+
     protected function applyFix(SplFileInfo $file, Tokens $tokens) {
         foreach ($tokens as $index => $token) {
             if (!$token->isGivenKind(self::STATEMENTS)) {
