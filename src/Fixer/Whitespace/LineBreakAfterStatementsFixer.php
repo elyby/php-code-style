@@ -126,17 +126,23 @@ class Foo
 
         if ($nextToken->equals('(')) {
             $parenthesisEndIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $nextIndex);
-            $possibleStartBraceIndex = $tokens->getNextNonWhitespace($parenthesisEndIndex);
+            $possibleBeginBraceIndex = $tokens->getNextNonWhitespace($parenthesisEndIndex);
         } else {
-            $possibleStartBraceIndex = $nextIndex;
+            $possibleBeginBraceIndex = $nextIndex;
         }
 
         // `do {} while ();`
-        if ($tokens[$index]->isGivenKind(T_WHILE) && $tokens[$possibleStartBraceIndex]->equals(';')) {
-            return $possibleStartBraceIndex;
+        if ($tokens[$index]->isGivenKind(T_WHILE) && $tokens[$possibleBeginBraceIndex]->equals(';')) {
+            return $possibleBeginBraceIndex;
         }
 
-        $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $possibleStartBraceIndex);
+        $possibleBeginBrace = $tokens[$possibleBeginBraceIndex];
+        if ($possibleBeginBrace->equals('{')) {
+            $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $possibleBeginBraceIndex);
+        } else {
+            $blockEnd = $tokens->getNextTokenOfKind($possibleBeginBraceIndex, [';']);
+        }
+
         $nextStatementIndex = $tokens->getNextMeaningfulToken($blockEnd);
         if ($nextStatementIndex === null) {
             return $blockEnd;

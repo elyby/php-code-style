@@ -359,6 +359,207 @@ foreach ($coordinates as $coordinate) {
 }
 ',
         ];
+        // Issue 5
+        $cases[] = [
+            '<?php
+class Foo
+{
+    public function foo()
+    {
+        if ("a" === "b")
+            $this->bar();
+
+        $a = "next statement";
+    }
+}',
+            '<?php
+class Foo
+{
+    public function foo()
+    {
+        if ("a" === "b")
+            $this->bar();
+        $a = "next statement";
+    }
+}',
+        ];
+        $cases[] = [
+            '<?php
+class Foo
+{
+    public function foo()
+    {
+        if ("a" === "b")
+            $this->bar();
+        else
+            $this->baz();
+
+        $a = "next statement";
+    }
+}',
+            '<?php
+class Foo
+{
+    public function foo()
+    {
+        if ("a" === "b")
+            $this->bar();
+        else
+            $this->baz();
+        $a = "next statement";
+    }
+}',
+        ];
+        $cases[] = [
+            '<?php
+class Foo
+{
+    public function foo()
+    {
+        for ($i = 0; $i < 3; $i++)
+            $this->bar();
+
+        $a = "next statement";
+    }
+}',
+            '<?php
+class Foo
+{
+    public function foo()
+    {
+        for ($i = 0; $i < 3; $i++)
+            $this->bar();
+        $a = "next statement";
+    }
+}',
+        ];
+        $cases[] = [
+            '<?php
+class Foo
+{
+    public function foo()
+    {
+        foreach (["foo", "bar"] as $str)
+            $this->bar();
+
+        $a = "next statement";
+    }
+}',
+            '<?php
+class Foo
+{
+    public function foo()
+    {
+        foreach (["foo", "bar"] as $str)
+            $this->bar();
+        $a = "next statement";
+    }
+}',
+        ];
+        $cases[] = [
+            '<?php
+class Foo
+{
+    public function foo()
+    {
+        while ($i < 10)
+            $this->bar();
+
+        $a = "next statement";
+    }
+}',
+            '<?php
+class Foo
+{
+    public function foo()
+    {
+        while ($i < 10)
+            $this->bar();
+        $a = "next statement";
+    }
+}',
+        ];
+        $cases[] = [
+            '<?php
+class Foo
+{
+    public function foo()
+    {
+        do
+            $this->bar();
+        while ($i < 10);
+
+        $a = "next statement";
+    }
+}',
+            '<?php
+class Foo
+{
+    public function foo()
+    {
+        do
+            $this->bar();
+        while ($i < 10);
+        $a = "next statement";
+    }
+}',
+        ];
+        $cases[] = [
+            '<?php
+class Foo
+{
+    public function bar()
+    {
+        if ("a" === "b")
+            $this->foo();
+        else if ("a" === "c")
+            $this->bar();
+        else if ("a" === "d")
+            $this->baz();
+
+        $a = "next statement";
+    }
+}',
+            '<?php
+class Foo
+{
+    public function bar()
+    {
+        if ("a" === "b")
+            $this->foo();
+        else if ("a" === "c")
+            $this->bar();
+        else if ("a" === "d")
+            $this->baz();
+        $a = "next statement";
+    }
+}',
+        ];
+        $cases[] = [
+            '<?php
+class Foo
+{
+    public function bar()
+    {
+        foreach (["foo", "bar"] as $str)
+            if ($str === "foo")
+                $this->bar();
+
+        return 3;
+    }
+}',
+            '<?php
+class Foo
+{
+    public function bar()
+    {
+        foreach (["foo", "bar"] as $str)
+            if ($str === "foo")
+                $this->bar();
+        return 3;
+    }
+}',
+        ];
 
         return $cases;
     }
