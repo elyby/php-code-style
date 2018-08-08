@@ -3,6 +3,11 @@
 Set of PHP-CS-Fixer rules used in development of Ely.by PHP projects. It's suited for PHP 7.1 and above.
 You can use it as a ready-made set of rules or [just some of them](#using-our-fixers).
 
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Total Downloads][ico-downloads]][link-downloads]
+[![Software License][ico-license]](LICENSE.md)
+[![Build Status][ico-build-status]][link-build-status]
+
 ## Installation
 
 First of all install Ely.by PHP-CS-Fixer rules via composer with
@@ -277,3 +282,13 @@ usages with native `::class` keyword, introduced in PHP 5.5.
 - $className = User::className();
 + $className = User::class;
 ```
+
+[ico-version]: https://img.shields.io/packagist/v/ely/php-code-style.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-Apache-green.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/ely/php-code-style.svg?style=flat-square
+[ico-build-status]: https://img.shields.io/travis/elyby/php-code-style/master.svg?style=flat-square
+
+[link-packagist]: https://packagist.org/packages/ely/php-code-style
+[link-contributors]: ../../contributors
+[link-downloads]: https://packagist.org/packages/ely/php-code-style/stats
+[link-build-status]: https://travis-ci.org/elyby/php-code-style
