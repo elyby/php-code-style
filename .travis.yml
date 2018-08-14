@@ -1,9 +1,4 @@
 language: php
-php:
-  - '7.0'
-  - '7.1'
-  - '7.2'
-  - nightly
 
 cache:
   directories:
@@ -29,7 +24,18 @@ jobs:
       script:
         - vendor/bin/php-cs-fixer fix -v --dry-run
     - stage: Test
+      php: 7.0
       script:
         - vendor/bin/phpunit
+    - php: 7.1
+      script:
+        - vendor/bin/phpunit
+    - php: 7.2
+      script:
+        - vendor/bin/phpunit
+    - php: nightly
+      script:
+        - vendor/bin/phpunit
+
   allow_failures:
     - php: nightly
