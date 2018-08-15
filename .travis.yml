@@ -28,8 +28,8 @@ jobs:
       php: 7.2
       script:
         - vendor/bin/php-cs-fixer fix -v --dry-run
-    - stage: Test
-      script:
-        - vendor/bin/phpunit
   allow_failures:
     - php: nightly
+
+script:
+  - vendor/bin/phpunit
