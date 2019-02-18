@@ -7,9 +7,9 @@ use Ely\CS\Fixer\AbstractFixer;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\Utils;
 use SplFileInfo;
 
 /**
@@ -123,7 +123,8 @@ class Foo
         }
 
         // The final bit of the whitespace must be the next statement's indentation
-        $lines = Utils::splitLines($content);
+        Preg::matchAll('/[^\n\r]+[\r\n]*/', $content, $matches);
+        $lines = $matches[0];
         $eol = $this->whitespacesConfig->getLineEnding();
         $tokens[$index] = new Token([T_WHITESPACE, str_repeat($eol, $countLines + 1) . end($lines)]);
     }

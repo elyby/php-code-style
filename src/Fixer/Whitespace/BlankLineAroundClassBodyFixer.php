@@ -10,10 +10,10 @@ use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
-use PhpCsFixer\Utils;
 
 /**
  * This is copy of the PR https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/3688
@@ -142,7 +142,8 @@ new class extends Foo {
         }
 
         // The final bit of the whitespace must be the next statement's indentation
-        $lines = Utils::splitLines($content);
+        Preg::matchAll('/[^\n\r]+[\r\n]*/', $content, $matches);
+        $lines = $matches[0];
         $eol = $this->whitespacesConfig->getLineEnding();
         $tokens[$index] = new Token([T_WHITESPACE, str_repeat($eol, $countLines + 1) . end($lines)]);
     }
