@@ -31,5 +31,10 @@
         "psr-4": {
             "Ely\\CS\\Test\\": "tests/"
         }
+    },
+    "config": {
+        "platform": {
+            "php": "7.0.8"
+        }
     }
 }
