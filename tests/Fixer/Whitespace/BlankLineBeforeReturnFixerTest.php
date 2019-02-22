@@ -36,7 +36,7 @@ final class BlankLineBeforeReturnFixerTest extends AbstractFixerTestCase {
     public function provideFixCases() {
         $cases = [];
         $cases[] = [
-                '$a = $a;
+            '$a = $a;
 return $a;
 ',
         ];
