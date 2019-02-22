@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.2.1] - 2019-02-22
+### Fixed
+- Compatibility with the `friendsofphp/php-cs-fixer` version 2.13.3 and above.
+
 ## [0.2.0] - 2018-08-08
 ### Added
 - Enh #4: `Ely\remove_class_name_method_usages` fixer.
