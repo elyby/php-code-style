@@ -30,7 +30,6 @@ class Rules {
         'declare_equal_normalize' => true,
         'dir_constant' => true,
         'ereg_to_preg' => true,
-        'explicit_indirect_variable' => true,
         'explicit_string_variable' => true, // Should be configurable to choose between ${var} and {$var}
         'function_declaration' => [
             'closure_function_spacing' => 'none',
@@ -78,7 +77,9 @@ class Rules {
         'normalize_index_brace' => true,
         'object_operator_without_whitespace' => true,
         'ordered_class_elements' => true,
-        'ordered_imports' => true,
+        'ordered_imports' => [
+            'imports_order' => ['class', 'function', 'const'],
+        ],
         'php_unit_construct' => true,
         'php_unit_expectation' => true,
         'php_unit_method_casing' => true,
@@ -100,7 +101,6 @@ class Rules {
             'space_before' => 'none',
         ],
         'self_accessor' => true,
-        'semicolon_after_instruction' => true,
         'set_type_to_cast' => true,
         'short_scalar_cast' => true,
         'single_quote' => true,
