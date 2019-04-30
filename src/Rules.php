@@ -100,7 +100,6 @@ class Rules {
         'return_type_declaration' => [
             'space_before' => 'none',
         ],
-        'self_accessor' => true,
         'set_type_to_cast' => true,
         'short_scalar_cast' => true,
         'single_quote' => true,

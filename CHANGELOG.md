@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.3.1] - 2019-02-27
+### Removed
+- `self_accessor` fixer because it leads to errors in interfaces, that returns self.
+
 ## [0.3.0] - 2019-02-23
 ### Added
 - `array_indentation` fixer.
