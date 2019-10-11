@@ -5,8 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `simple_to_complex_string_variable` fixer.
+- `single_trait_insert_per_statement` fixer.
+- `native_function_type_declaration_casing` fixer.
+- `php_unit_mock_short_will_return` fixer.
+- `php_unit_dedicate_assert_internal_type` fixer.
+- `php_unit_no_expectation_annotation` fixer.
 
-## [0.3.1] - 2019-02-27
+### Changed
+- `friendsofphp/php-cs-fixer` version bumped to `^2.15.0`.
+
 ### Removed
 - `self_accessor` fixer because it leads to errors in interfaces, that returns self.
 
