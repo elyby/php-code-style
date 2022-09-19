@@ -16,11 +16,22 @@
     "license": "Apache-2.0",
     "type": "library",
     "require": {
-        "php": "^7.0|^8.0",
-        "friendsofphp/php-cs-fixer": "^2.15.0"
+        "php": "^7.4|^8.0",
+        "friendsofphp/php-cs-fixer": "^3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.5.1"
+        "phpunit/phpunit": "^9.5",
+        "phpspec/prophecy": "^1.15",
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpunitgoodpractices/traits": "^1.9.1",
+        "symfony/phpunit-bridge": "^6.0",
+        "phpunitgoodpractices/polyfill": "^1.5",
+        "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.2"
+    },
+    "config": {
+        "preferred-install": {
+            "friendsofphp/php-cs-fixer": "source"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -29,12 +40,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Ely\\CS\\Test\\": "tests/"
-        }
-    },
-    "config": {
-        "platform": {
-            "php": "7.0.8"
+            "Ely\\CS\\Test\\": "tests/",
+            "PhpCsFixer\\Tests\\": "vendor/friendsofphp/php-cs-fixer/tests/"
         }
     }
 }

@@ -4,12 +4,14 @@ declare(strict_types=1);
 namespace Ely\CS\Fixer\Whitespace;
 
 use Ely\CS\Fixer\AbstractFixer;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -20,12 +22,9 @@ use PhpCsFixer\Tokenizer\TokensAnalyzer;
  *
  * @author ErickSkrauch <erickskrauch@ely.by>
  */
-final class BlankLineAroundClassBodyFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface, WhitespacesAwareFixerInterface {
+final class BlankLineAroundClassBodyFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDefinition() {
+    public function getDefinition(): FixerDefinitionInterface {
         return new FixerDefinition(
             'Ensure that class body contains one blank line after class definition and before its end.',
             [
@@ -37,7 +36,7 @@ class Sample
     {
     }
 }
-'
+',
                 ),
                 new CodeSample(
                     '<?php
@@ -49,7 +48,7 @@ new class extends Foo {
 
 };
 ',
-                    ['apply_to_anonymous_classes' => false]
+                    ['apply_to_anonymous_classes' => false],
                 ),
                 new CodeSample(
                     '<?php
@@ -59,31 +58,22 @@ new class extends Foo {
     }
 };
 ',
-                    ['apply_to_anonymous_classes' => true]
+                    ['apply_to_anonymous_classes' => true],
                 ),
-            ]
+            ],
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority() {
+    public function getPriority(): int {
         // should be run after the BracesFixer
         return -26;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isCandidate(Tokens $tokens) {
+    public function isCandidate(Tokens $tokens): bool {
         return $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds());
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function applyFix(\SplFileInfo $file, Tokens $tokens) {
+    protected function applyFix(\SplFileInfo $file, Tokens $tokens): void {
         $analyzer = new TokensAnalyzer($tokens);
         foreach ($tokens as $index => $token) {
             if (!$token->isClassy()) {
@@ -111,10 +101,7 @@ new class extends Foo {
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function createConfigurationDefinition() {
+    protected function createConfigurationDefinition(): FixerConfigurationResolverInterface {
         return new FixerConfigurationResolver([
             (new FixerOptionBuilder('blank_lines_count', 'adjusts an amount of the blank lines.'))
                 ->setAllowedTypes(['int'])
@@ -127,14 +114,7 @@ new class extends Foo {
         ]);
     }
 
-    /**
-     * Cleanup a whitespace token.
-     *
-     * @param Tokens $tokens
-     * @param int    $index
-     * @param int    $countLines
-     */
-    private function fixBlankLines(Tokens $tokens, $index, $countLines) {
+    private function fixBlankLines(Tokens $tokens, int $index, int $countLines): void {
         $content = $tokens[$index]->getContent();
         // Apply fix only in the case when the count lines do not equals to expected
         if (substr_count($content, "\n") === $countLines + 1) {

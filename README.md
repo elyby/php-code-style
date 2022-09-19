@@ -246,27 +246,6 @@ and `do-while`.
  $c = 'next statement';
 ```
 
-### `Ely/new_with_braces`
-
-This is the extended version of the original `new_with_braces` fixer. It allows you to remove braces around
-an anonymous class declaration in a case when said class constructor doesn't contain any arguments.
-
-```diff
---- Original
-+++ New
-@@ @@
- <?php
--$a = new Foo;
-+$a = new Foo();
--$b = new class() extends Foo {};
-+$b = new class extends Foo {};
-```
-
-**Configuration:**
-
-* `remove_for_anonymous_classes` - if its set to `true`, then braces for anonymous classes without constructor
-  arguments will be removed. **Default**: `false`.
-
 ### `Ely/remove_class_name_method_usages` (Yii2)
 
 Replaces Yii2 [`BaseObject::className()`](https://github.com/yiisoft/yii2/blob/e53fc0ded1/framework/base/BaseObject.php#L84)

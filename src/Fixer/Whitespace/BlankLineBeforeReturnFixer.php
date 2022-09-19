@@ -7,6 +7,7 @@ use Ely\CS\Fixer\AbstractFixer;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
@@ -23,35 +24,23 @@ use SplFileInfo;
  */
 final class BlankLineBeforeReturnFixer extends AbstractFixer implements WhitespacesAwareFixerInterface {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDefinition() {
+    public function getDefinition(): FixerDefinitionInterface {
         return new FixerDefinition(
             'An empty line feed should precede a return statement.',
-            [new CodeSample("<?php\nfunction A()\n{\n    echo 1;\n    return 1;\n}\n")]
+            [new CodeSample("<?php\nfunction A()\n{\n    echo 1;\n    echo 2;\n    return 1;\n}\n")],
         );
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isCandidate(Tokens $tokens) {
+    public function isCandidate(Tokens $tokens): bool {
         return $tokens->isTokenKindFound(T_RETURN);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority() {
+    public function getPriority(): int {
         // should be run after NoUselessReturnFixer, ClassDefinitionFixer and BracesFixer
         return -26;
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function applyFix(SplFileInfo $file, Tokens $tokens) {
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void {
         for ($index = 0, $limit = $tokens->count(); $index < $limit; ++$index) {
             $token = $tokens[$index];
             if (!$token->isGivenKind(T_RETURN)) {
@@ -93,7 +82,7 @@ final class BlankLineBeforeReturnFixer extends AbstractFixer implements Whitespa
                     }
                 }
             } else {
-                $tokens->insertAt($index, new Token([T_WHITESPACE, $eol . $eol]));
+                $tokens->insertSlices([$index => new Token([T_WHITESPACE, $eol . $eol])]);
                 ++$index;
                 ++$limit;
             }

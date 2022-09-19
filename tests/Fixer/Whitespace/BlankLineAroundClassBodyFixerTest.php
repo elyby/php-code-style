@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Ely\CS\Test\Fixer\Whitespace;
 
 use Ely\CS\Fixer\Whitespace\BlankLineAroundClassBodyFixer;
+use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use PhpCsFixer\WhitespacesFixerConfig;
 
@@ -19,40 +20,18 @@ final class BlankLineAroundClassBodyFixerTest extends AbstractFixerTestCase {
     private static $configurationTwoEmptyLines = ['blank_lines_count' => 2];
 
     /**
-     * @param string      $expected
-     * @param null|string $input
-     * @param null|array  $configuration
-     *
      * @dataProvider provideFixCases
      */
-    public function testFix($expected, $input = null, array $configuration = null) {
-        if (null !== $configuration) {
+    public function testFix(string $expected, ?string $input = null, array $configuration = null): void {
+        if ($configuration !== null) {
             $this->fixer->configure($configuration);
         }
 
         $this->doTest($expected, $input);
     }
 
-    /**
-     * @param string      $expected
-     * @param null|string $input
-     * @param array       $configuration
-     *
-     * @dataProvider provideAnonymousClassesCases
-     * @requires PHP 7.0
-     */
-    public function testFixAnonymousClasses($expected, $input = null, array $configuration = null) {
-        if (null !== $configuration) {
-            $this->fixer->configure($configuration);
-        }
-
-        $this->doTest($expected, $input);
-    }
-
-    public function provideFixCases() {
-        $cases = [];
-
-        $cases[] = [
+    public function provideFixCases(): iterable {
+        yield [
             '<?php
 class Good
 {
@@ -72,7 +51,8 @@ class Good
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Good
 {
@@ -98,7 +78,8 @@ class Good
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Good
 {
@@ -130,7 +111,8 @@ class Good
 }',
         ];
 
-        $cases[] = [
+
+        yield [
             '<?php
 interface Good
 {
@@ -150,7 +132,8 @@ interface Good
     public function firstMethod();
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 trait Good
 {
@@ -170,7 +153,8 @@ trait Good
     public function firstMethod() {}
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Good
 {
@@ -193,7 +177,8 @@ class Good
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Good
 {
@@ -218,7 +203,8 @@ class Good
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Good
 {
@@ -247,7 +233,8 @@ class Good
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Good
 {
@@ -272,7 +259,7 @@ class Good
         ];
 
         // check if some fancy whitespaces aren't modified
-        $cases[] = [
+        yield [
             '<?php
 class Good
 {public
@@ -287,13 +274,7 @@ class Good
 }',
         ];
 
-        return $cases;
-    }
-
-    public function provideAnonymousClassesCases() {
-        $cases = [];
-
-        $cases[] = [
+        yield [
             '<?php
 $class = new class extends \Foo {
 
@@ -309,7 +290,8 @@ $class = new class extends \Foo {
     public function firstMethod() {}
 };',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 $class = new class extends \Foo {
     public $field;
@@ -326,17 +308,12 @@ $class = new class extends \Foo {
 };',
             self::$configurationDoNotApplyForAnonymousClasses,
         ];
-
-        return $cases;
     }
 
     /**
-     * @param string      $expected
-     * @param null|string $input
-     *
      * @dataProvider provideMessyWhitespacesCases
      */
-    public function testMessyWhitespaces($expected, $input = null) {
+    public function testMessyWhitespaces(string $expected, ?string $input = null): void {
         /** @var \PhpCsFixer\Fixer\WhitespacesAwareFixerInterface $fixer */
         $fixer = $this->fixer;
         $fixer->setWhitespacesConfig(new WhitespacesFixerConfig("\t", "\r\n"));
@@ -344,20 +321,19 @@ $class = new class extends \Foo {
         $this->doTest($expected, $input);
     }
 
-    public function provideMessyWhitespacesCases() {
-        return [
-            [
-                "<?php\nclass Foo\n{\r\n\r\n    public function bar() {}\r\n\r\n}",
-                "<?php\nclass Foo\n{\n    public function bar() {}\n}",
-            ],
-            [
-                "<?php\nclass Foo\n{\r\n\r\n    public function bar() {}\r\n\r\n}",
-                "<?php\nclass Foo\n{\r\n\r\n\n\n    public function bar() {}\n\n\n\n}",
-            ],
+    public function provideMessyWhitespacesCases(): iterable {
+        yield [
+            "<?php\nclass Foo\n{\r\n\r\n    public function bar() {}\r\n\r\n}",
+            "<?php\nclass Foo\n{\n    public function bar() {}\n}",
+        ];
+
+        yield [
+            "<?php\nclass Foo\n{\r\n\r\n    public function bar() {}\r\n\r\n}",
+            "<?php\nclass Foo\n{\r\n\r\n\n\n    public function bar() {}\n\n\n\n}",
         ];
     }
 
-    protected function createFixer() {
+    protected function createFixer(): AbstractFixer {
         return new BlankLineAroundClassBodyFixer();
     }
 

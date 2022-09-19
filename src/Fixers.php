@@ -22,7 +22,6 @@ class Fixers implements IteratorAggregate {
                 continue;
             }
 
-            /** @noinspection PhpUnhandledExceptionInspection */
             $rfl = new ReflectionClass($class);
             if (!$rfl->implementsInterface(FixerInterface::class) || $rfl->isAbstract()) {
                 continue;
@@ -31,9 +30,7 @@ class Fixers implements IteratorAggregate {
             $classes[] = $class;
         }
 
-        return new ArrayIterator(array_map(function($class) {
-            return new $class();
-        }, $classes));
+        return new ArrayIterator(array_map(fn($class) => new $class(), $classes));
     }
 
 }

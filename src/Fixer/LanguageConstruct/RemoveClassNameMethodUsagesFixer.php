@@ -6,6 +6,7 @@ namespace Ely\CS\Fixer\LanguageConstruct;
 use Ely\CS\Fixer\AbstractFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -18,10 +19,7 @@ use SplFileInfo;
  */
 final class RemoveClassNameMethodUsagesFixer extends AbstractFixer {
 
-    /**
-     * @inheritdoc
-     */
-    public function getDefinition() {
+    public function getDefinition(): FixerDefinitionInterface {
         return new FixerDefinition(
             'Converts Yii2 `BaseObject::className()` method usage into `::class` keyword.',
             [
@@ -31,30 +29,23 @@ final class RemoveClassNameMethodUsagesFixer extends AbstractFixer {
 use Foo\Bar\Baz;
 
 $className = Baz::className();
-'
+',
                 ),
-            ]
+            ],
+            null,
+            'Risky when the method `className()` is overridden.',
         );
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isCandidate(Tokens $tokens) {
+    public function isCandidate(Tokens $tokens): bool {
         return $tokens->isTokenKindFound(T_STRING);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isRisky() {
+    public function isRisky(): bool {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function applyFix(SplFileInfo $file, Tokens $tokens) {
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void {
         for ($index = $tokens->count() - 4; $index > 0; --$index) {
             $candidate = $this->getReplaceCandidate($tokens, $index);
             if ($candidate === null) {
@@ -65,18 +56,12 @@ $className = Baz::className();
                 $tokens,
                 $index,
                 $candidate[0], // brace open
-                $candidate[1]  // brace close
+                $candidate[1],  // brace close
             );
         }
     }
 
-    /**
-     * @param Tokens $tokens
-     * @param int    $index
-     *
-     * @return null|array
-     */
-    private function getReplaceCandidate(Tokens $tokens, $index) {
+    private function getReplaceCandidate(Tokens $tokens, int $index): ?array {
         if (!$tokens[$index]->isGivenKind(T_STRING)) {
             return null;
         }
@@ -107,13 +92,12 @@ $className = Baz::className();
         ];
     }
 
-    /**
-     * @param Tokens  $tokens
-     * @param int     $index
-     * @param int     $braceOpenIndex
-     * @param int     $braceCloseIndex
-     */
-    private function fixClassNameMethodUsage(Tokens $tokens, int $index, int $braceOpenIndex, int $braceCloseIndex) {
+    private function fixClassNameMethodUsage(
+        Tokens $tokens,
+        int $index,
+        int $braceOpenIndex,
+        int $braceCloseIndex
+    ): void {
         $tokens->clearTokenAndMergeSurroundingWhitespace($braceCloseIndex);
         $tokens->clearTokenAndMergeSurroundingWhitespace($braceOpenIndex);
         $tokens->clearAt($index);

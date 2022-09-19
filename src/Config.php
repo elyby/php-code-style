@@ -8,7 +8,7 @@ use PhpCsFixer\Config as PhpCsFixerConfig;
 class Config {
 
     public static function create(array $overwrittenRules = []): PhpCsFixerConfig {
-        return PhpCsFixerConfig::create()
+        return (new PhpCsFixerConfig())
             ->setRiskyAllowed(true)
             ->registerCustomFixers(new Fixers())
             ->setRules(Rules::create($overwrittenRules));
