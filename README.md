@@ -246,27 +246,6 @@ and `do-while`.
  $c = 'next statement';
 ```
 
-### `Ely/new_with_braces`
-
-This is the extended version of the original `new_with_braces` fixer. It allows you to remove braces around
-an anonymous class declaration in a case when said class constructor doesn't contain any arguments.
-
-```diff
---- Original
-+++ New
-@@ @@
- <?php
--$a = new Foo;
-+$a = new Foo();
--$b = new class() extends Foo {};
-+$b = new class extends Foo {};
-```
-
-**Configuration:**
-
-* `remove_for_anonymous_classes` - if its set to `true`, then braces for anonymous classes without constructor
-  arguments will be removed. **Default**: `false`.
-
 ### `Ely/remove_class_name_method_usages` (Yii2)
 
 Replaces Yii2 [`BaseObject::className()`](https://github.com/yiisoft/yii2/blob/e53fc0ded1/framework/base/BaseObject.php#L84)
@@ -286,9 +265,9 @@ usages with native `::class` keyword, introduced in PHP 5.5.
 [ico-version]: https://img.shields.io/packagist/v/ely/php-code-style.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-Apache-green.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/ely/php-code-style.svg?style=flat-square
-[ico-build-status]: https://img.shields.io/travis/elyby/php-code-style/master.svg?style=flat-square
+[ico-build-status]: https://img.shields.io/github/workflow/status/elyby/php-code-style/CI.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/ely/php-code-style
 [link-contributors]: ../../contributors
 [link-downloads]: https://packagist.org/packages/ely/php-code-style/stats
-[link-build-status]: https://travis-ci.org/elyby/php-code-style
+[link-build-status]: https://github.com/elyby/php-code-style/actions

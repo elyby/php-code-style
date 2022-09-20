@@ -7,6 +7,7 @@ use Ely\CS\Fixer\AbstractFixer;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -25,7 +26,7 @@ final class LineBreakAfterStatementsFixer extends AbstractFixer implements White
     /**
      * There is no 'do', 'cause the processing of the 'while' also includes do {} while (); construction
      */
-    const STATEMENTS = [
+    public const STATEMENTS = [
         T_IF,
         T_SWITCH,
         T_FOR,
@@ -33,12 +34,9 @@ final class LineBreakAfterStatementsFixer extends AbstractFixer implements White
         T_WHILE,
     ];
 
-    /**
-     * @inheritdoc
-     */
-    public function getDefinition() {
+    public function getDefinition(): FixerDefinitionInterface {
         return new FixerDefinition(
-            'Ensures that there is one blank line above the control statements',
+            'Ensures that there is one blank line above the control statements.',
             [
                 new CodeSample(
                     '<?php
@@ -73,28 +71,22 @@ class Foo
         $a = "next statement";
     }
 }
-'
+',
                 ),
-            ]
+            ],
         );
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isCandidate(Tokens $tokens) {
+    public function isCandidate(Tokens $tokens): bool {
         return $tokens->isAnyTokenKindsFound(self::STATEMENTS);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority() {
+    public function getPriority(): int {
         // for the best result should be run after the BracesFixer
         return -26;
     }
 
-    protected function applyFix(SplFileInfo $file, Tokens $tokens) {
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void {
         foreach ($tokens as $index => $token) {
             if (!$token->isGivenKind(self::STATEMENTS)) {
                 continue;
@@ -115,7 +107,7 @@ class Foo
         }
     }
 
-    private function fixBlankLines(Tokens $tokens, $index, $countLines) {
+    private function fixBlankLines(Tokens $tokens, int $index, int $countLines): void {
         $content = $tokens[$index]->getContent();
         // Apply fix only in the case when the count lines do not equals to expected
         if (substr_count($content, "\n") === $countLines + 1) {

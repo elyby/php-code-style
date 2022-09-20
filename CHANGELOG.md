@@ -12,11 +12,47 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `php_unit_mock_short_will_return` fixer.
 - `php_unit_dedicate_assert_internal_type` fixer.
 - `php_unit_no_expectation_annotation` fixer.
+- `modernize_strpos` fixer.
+- `no_multiple_statements_per_line` fixer.
+- `octal_notation` fixer.
+- `class_reference_name_casing` fixer.
+- `integer_literal_case` fixer.
+- `no_unset_cast` fixer.
+- `no_null_property_initialization` fixer.
+- `comment_to_phpdoc` fixer.
+- `multiline_comment_opening_closing` fixer.
+- `no_empty_comment` fixer.
+- `single_line_comment_spacing` fixer.
+- `single_line_comment_style` fixer.
+- `empty_loop_body` fixer.
+- `empty_loop_condition` fixer.
+- `switch_continue_to_break` fixer.
+- `yoda_style` fixer in non-yoda mode.
+- `function_typehint_space` fixer.
+- `lambda_not_used_import` fixer.
+- `no_unneeded_import_alias` fixer.
+- `combine_consecutive_unsets` fixer.
+- `declare_parentheses` fixer.
+- `clean_namespace` fixer.
+- `assign_null_coalescing_to_coalesce_equal` fixer.
+- `no_useless_nullsafe_operator` fixer.
+- `operator_linebreak` fixer.
+- `php_unit_fqcn_annotation` fixer.
+- `php_unit_test_case_static_method_calls` fixer.
+- `simplified_null_return` fixer.
+- `no_empty_statement` fixer.
+- `no_singleline_whitespace_before_semicolons` fixer.
+- `semicolon_after_instruction` fixer.
+- `types_spaces` fixer.
+- `no_trailing_comma_in_singleline` fixer.
 
 ### Changed
-- `friendsofphp/php-cs-fixer` version bumped to `^2.15.0`.
+- `friendsofphp/php-cs-fixer` version bumped to `^3`.
+- `braces` fixer now enables rule `allow_single_line_anonymous_class_with_empty_body`.
+- `class_attributes_separation` fixer now fixes `const` in the `only_if_meta` mode.
 
 ### Removed
+- `Ely/new_with_braces` since all its functionality is now included in the original fixer.
 - `self_accessor` fixer because it leads to errors in interfaces, that returns self.
 
 ## [0.3.0] - 2019-02-23

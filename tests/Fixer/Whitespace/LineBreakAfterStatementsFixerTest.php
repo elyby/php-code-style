@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Ely\CS\Test\Fixer\Whitespace;
 
 use Ely\CS\Fixer\Whitespace\LineBreakAfterStatementsFixer;
+use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 
 /**
@@ -14,20 +15,15 @@ use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 class LineBreakAfterStatementsFixerTest extends AbstractFixerTestCase {
 
     /**
-     * @param string $expected
-     * @param string $input
-     *
      * @dataProvider provideFixCases
      */
-    public function testFix(string $expected, $input = null) {
+    public function testFix(string $expected, ?string $input = null): void {
         $this->doTest($expected, $input);
     }
 
-    public function provideFixCases() {
-        $cases = [];
-
+    public function provideFixCases(): iterable {
         // Simple cases
-        $cases[] = [
+        yield [
             '<?php
 class Foo
 {
@@ -52,7 +48,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -81,7 +78,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -106,7 +104,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -131,7 +130,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -156,7 +156,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -181,7 +182,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -216,8 +218,9 @@ class Foo
     }
 }',
         ];
+
         // Extended cases
-        $cases[] = [
+        yield [
             '<?php
 class Foo
 {
@@ -250,7 +253,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -283,7 +287,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -310,7 +315,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -351,7 +357,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 $a = "prev statement";
 foreach ($coordinates as $coordinate) {
@@ -359,8 +366,9 @@ foreach ($coordinates as $coordinate) {
 }
 ',
         ];
+
         // Issue 5
-        $cases[] = [
+        yield [
             '<?php
 class Foo
 {
@@ -383,7 +391,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -410,7 +419,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -433,7 +443,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -456,7 +467,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -479,7 +491,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -504,7 +517,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -535,7 +549,8 @@ class Foo
     }
 }',
         ];
-        $cases[] = [
+
+        yield [
             '<?php
 class Foo
 {
@@ -560,11 +575,9 @@ class Foo
     }
 }',
         ];
-
-        return $cases;
     }
 
-    protected function createFixer() {
+    protected function createFixer(): AbstractFixer {
         return new LineBreakAfterStatementsFixer();
     }
 

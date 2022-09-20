@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Ely\CS\Test\Fixer\Whitespace;
 
 use Ely\CS\Fixer\Whitespace\BlankLineBeforeReturnFixer;
+use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use PhpCsFixer\WhitespacesFixerConfig;
 
@@ -24,23 +25,19 @@ use PhpCsFixer\WhitespacesFixerConfig;
 final class BlankLineBeforeReturnFixerTest extends AbstractFixerTestCase {
 
     /**
-     * @param string      $expected
-     * @param null|string $input
-     *
      * @dataProvider provideFixCases
      */
-    public function testFix($expected, $input = null) {
+    public function testFix(string $expected, ?string $input = null): void {
         $this->doTest($expected, $input);
     }
 
-    public function provideFixCases() {
-        $cases = [];
-        $cases[] = [
+    public function provideFixCases(): iterable {
+        yield [
             '$a = $a;
 return $a;
 ',
         ];
-        $cases[] = [
+        yield [
             '<?php
 $a = $a;
 
@@ -48,7 +45,7 @@ return $a;',
             '<?php
 $a = $a; return $a;',
         ];
-        $cases[] = [
+        yield [
             '<?php
 $b = $b;
 
@@ -56,7 +53,7 @@ return $b;',
             '<?php
 $b = $b;return $b;',
         ];
-        $cases[] = [
+        yield [
             '<?php
 $c = $c;
 
@@ -65,7 +62,7 @@ return $c;',
 $c = $c;
 return $c;',
         ];
-        $cases[] = [
+        yield [
             '<?php
     $d = $d;
 
@@ -74,19 +71,19 @@ return $c;',
     $d = $d;
     return $d;',
         ];
-        $cases[] = [
+        yield [
             '<?php
     if (true) {
         return 1;
     }',
         ];
-        $cases[] = [
+        yield [
             '<?php
     if (true)
         return 1;
     ',
         ];
-        $cases[] = [
+        yield [
             '<?php
     if (true) {
         return 1;
@@ -94,7 +91,7 @@ return $c;',
         return 2;
     }',
         ];
-        $cases[] = [
+        yield [
             '<?php
     if (true)
         return 1;
@@ -102,7 +99,7 @@ return $c;',
         return 2;
     ',
         ];
-        $cases[] = [
+        yield [
             '<?php
     if (true) {
         return 1;
@@ -110,7 +107,7 @@ return $c;',
         return 2;
     }',
         ];
-        $cases[] = [
+        yield [
             '<?php
     if (true)
         return 1;
@@ -118,11 +115,11 @@ return $c;',
         return 2;
     ',
         ];
-        $cases[] = [
+        yield [
             '<?php
     throw new Exception("return true;");',
         ];
-        $cases[] = [
+        yield [
             '<?php
     function foo()
     {
@@ -130,7 +127,7 @@ return $c;',
         return "foo";
     }',
         ];
-        $cases[] = [
+        yield [
             '<?php
     function foo()
     {
@@ -139,7 +136,7 @@ return $c;',
         return "bar";
     }',
         ];
-        $cases[] = [
+        yield [
             '<?php
     function foo()
     {
@@ -147,7 +144,7 @@ return $c;',
         return "bar";
     }',
         ];
-        $cases[] = [
+        yield [
             '<?php
     function foo() {
         $a = "a";
@@ -162,14 +159,14 @@ return $c;',
         return $a . $b;
     }',
         ];
-        $cases[] = [
+        yield [
             '<?php
     function foo() {
         $b = "b";
         return $a . $b;
     }',
         ];
-        $cases[] = [
+        yield [
             '<?php
     function foo() {
         $a = "a";
@@ -183,40 +180,33 @@ return $c;',
     }
     ',
         ];
-
-        return $cases;
     }
 
     /**
-     * @param string      $expected
-     * @param null|string $input
-     *
      * @dataProvider provideMessyWhitespacesCases
      */
-    public function testMessyWhitespaces($expected, $input = null) {
+    public function testMessyWhitespaces(string $expected, ?string $input = null): void {
         $this->fixer->setWhitespacesConfig(new WhitespacesFixerConfig("\t", "\r\n"));
 
         $this->doTest($expected, $input);
     }
 
-    public function provideMessyWhitespacesCases() {
-        return [
-            [
-                "<?php\r\n\$a = \$a;\r\n\r\nreturn \$a;",
-                "<?php\r\n\$a = \$a; return \$a;",
-            ],
-            [
-                "<?php\r\n\$b = \$b;\r\n\r\nreturn \$b;",
-                "<?php\r\n\$b = \$b;return \$b;",
-            ],
-            [
-                "<?php\r\n\$c = \$c;\r\n\r\nreturn \$c;",
-                "<?php\r\n\$c = \$c;\r\nreturn \$c;",
-            ],
+    public function provideMessyWhitespacesCases(): iterable {
+        yield [
+            "<?php\r\n\$a = \$a;\r\n\r\nreturn \$a;",
+            "<?php\r\n\$a = \$a; return \$a;",
+        ];
+        yield [
+            "<?php\r\n\$b = \$b;\r\n\r\nreturn \$b;",
+            "<?php\r\n\$b = \$b;return \$b;",
+        ];
+        yield [
+            "<?php\r\n\$c = \$c;\r\n\r\nreturn \$c;",
+            "<?php\r\n\$c = \$c;\r\nreturn \$c;",
         ];
     }
 
-    protected function createFixer() {
+    protected function createFixer(): AbstractFixer {
         return new BlankLineBeforeReturnFixer();
     }
 
