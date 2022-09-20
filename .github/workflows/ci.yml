@@ -12,9 +12,9 @@ jobs:
       fail-fast: false
       matrix:
         php-versions:
-          - "7.4"
-          - "8.0"
-          - "8.1"
+          - '7.4'
+          - '8.0'
+          - '8.1'
 
     steps:
       - name: Checkout
@@ -41,6 +41,10 @@ jobs:
 
       - name: Install dependencies
         run: composer install
+
+      - name: Normalize composer.json
+        if: matrix.php-versions == '8.1'
+        run: composer normalize --dry-run
 
       - name: PHP-CS-Fixer
         if: matrix.php-versions == '8.1'
