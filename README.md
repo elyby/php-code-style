@@ -1,6 +1,6 @@
 # Ely.by PHP-CS-Fixer rules
 
-Set of PHP-CS-Fixer rules used in development of Ely.by PHP projects. It's suited for PHP 7.1 and above.
+Set of PHP-CS-Fixer rules used in development of Ely.by PHP projects. It's suited for PHP 7.4 and above.
 You can use it as a ready-made set of rules or [just some of them](#using-our-fixers).
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
@@ -17,7 +17,7 @@ First of all install Ely.by PHP-CS-Fixer rules via composer with
 composer require --dev friendsofphp/php-cs-fixer ely/php-code-style
 ```
 
-Then create file `.php_cs` with following contents:
+Then create a file `.php-cs-fixer.php` with the following contents:
 
 ```php
 <?php
