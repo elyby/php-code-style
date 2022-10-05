@@ -70,7 +70,6 @@ class Rules {
                 'elements' => [
                     'method' => 'one',
                     'property' => 'one',
-                    'const' => 'only_if_meta', // TODO: check on the real code base
                 ],
             ],
             'no_null_property_initialization' => true, // TODO: check against yii2 default overrides
