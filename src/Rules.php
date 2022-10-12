@@ -72,7 +72,7 @@ class Rules {
                     'property' => 'one',
                 ],
             ],
-            'no_null_property_initialization' => true, // TODO: check against yii2 default overrides
+            'no_null_property_initialization' => true,
             'no_php4_constructor' => true,
             'no_unneeded_final_method' => true,
             'ordered_class_elements' => true,
@@ -98,7 +98,7 @@ class Rules {
             'trailing_comma_in_multiline' => [
                 'elements' => PHP_MAJOR_VERSION >= 8
                     ? ['arrays', 'arguments', 'parameters', 'match']
-                    : ['arrays', 'parameters'],
+                    : ['arrays', 'arguments'],
             ],
             'yoda_style' => [
                 'equal' => false,
