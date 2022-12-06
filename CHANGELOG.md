@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.4.0] - 2022-12-06
 ### Added
 - `simple_to_complex_string_variable` fixer.
 - `single_trait_insert_per_statement` fixer.
@@ -133,7 +135,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - First release
 
-[Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/0.3.0...HEAD
+[Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/0.4.0...HEAD
+[0.4.0]: https://github.com/elyby/php-code-style/compare/0.3.0...0.4.0
 [0.3.0]: https://github.com/elyby/php-code-style/compare/0.2.1...0.3.0
 [0.2.1]: https://github.com/elyby/php-code-style/compare/0.2.0...0.2.1
 [0.2.0]: https://github.com/elyby/php-code-style/compare/0.1.0...0.2.0
