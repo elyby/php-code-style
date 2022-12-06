@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `semicolon_after_instruction` fixer.
 - `types_spaces` fixer.
 - `no_trailing_comma_in_singleline` fixer.
+- `no_useless_concat_operator` fixer.
 
 ### Changed
 - `friendsofphp/php-cs-fixer` version bumped to `^3`.

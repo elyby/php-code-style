@@ -20,7 +20,7 @@
     "homepage": "https://github.com/elyby/php-code-style",
     "require": {
         "php": "^7.4 || ^8.0",
-        "friendsofphp/php-cs-fixer": "^3.11"
+        "friendsofphp/php-cs-fixer": "^3.13"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.28",

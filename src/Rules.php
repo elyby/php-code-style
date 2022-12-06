@@ -110,6 +110,7 @@ class Rules {
             'combine_nested_dirname' => true,
             'function_declaration' => [
                 'closure_function_spacing' => 'none',
+                'closure_fn_spacing' => 'none',
             ],
             'function_typehint_space' => true,
             'implode_call' => true,
@@ -153,6 +154,7 @@ class Rules {
             'new_with_braces' => [
                 'anonymous_class' => false,
             ],
+            'no_useless_concat_operator' => true,
             'no_useless_nullsafe_operator' => true,
             'object_operator_without_whitespace' => true,
             'operator_linebreak' => true,
