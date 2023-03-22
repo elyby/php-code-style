@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Bug #10: `Ely/blank_line_before_return` don't treat interpolation curly bracket as beginning of the scope.
 
 ## [0.4.0] - 2022-12-06
 ### Added
