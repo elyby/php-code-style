@@ -67,8 +67,12 @@ final class BlankLineBeforeReturnFixer extends AbstractFixer implements Whitespa
                             break;
                         }
 
+                        /** @var Token $backwardToken */
                         $backwardToken = $tokens[$backwardIndex];
-                        if ($backwardToken->getContent() === '{') {
+                        /** @var Token $nextToken */
+                        $nextToken = $tokens[$backwardIndex + 1];
+                        // Exclude string interpolation: "str {$var}"
+                        if ($backwardToken->getContent() === '{' && !$nextToken->isGivenKind(T_VARIABLE)) {
                             break;
                         }
 

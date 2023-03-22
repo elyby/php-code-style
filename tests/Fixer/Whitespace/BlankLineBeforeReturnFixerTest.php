@@ -180,6 +180,20 @@ return $c;',
     }
     ',
         ];
+        yield [
+            '<?php
+            if ($condition) {
+                $a = "Interpolation {$var}.";
+                return true;
+            }',
+        ];
+        yield [
+            '<?php
+            if ($condition) {
+                $a = "Deprecated interpolation ${var}.";
+                return true;
+            }',
+        ];
     }
 
     /**
