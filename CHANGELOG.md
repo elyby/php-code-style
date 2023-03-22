@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Fixed
 - Bug #10: `Ely/blank_line_before_return` don't treat interpolation curly bracket as beginning of the scope.
+- Bug #9: `Ely/line_break_after_statements` add space before next meaningful line of code and skip comments.
 
 ## [0.4.0] - 2022-12-06
 ### Added

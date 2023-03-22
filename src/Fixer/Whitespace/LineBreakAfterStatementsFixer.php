@@ -26,7 +26,7 @@ final class LineBreakAfterStatementsFixer extends AbstractFixer implements White
     /**
      * There is no 'do', 'cause the processing of the 'while' also includes do {} while (); construction
      */
-    public const STATEMENTS = [
+    private const STATEMENTS = [
         T_IF,
         T_SWITCH,
         T_FOR,
@@ -93,7 +93,7 @@ class Foo
             }
 
             $endStatementIndex = $this->findStatementEnd($tokens, $index);
-            $nextStatementIndex = $tokens->getNextNonWhitespace($endStatementIndex);
+            $nextStatementIndex = $tokens->getNextMeaningfulToken($endStatementIndex);
             if ($nextStatementIndex === null) {
                 continue;
             }

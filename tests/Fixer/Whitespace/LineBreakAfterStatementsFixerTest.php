@@ -575,6 +575,14 @@ class Foo
     }
 }',
         ];
+
+        yield [
+            '<?php
+            do {
+                $a = 123;
+            } while ($value > 10); // comment here
+            ',
+        ];
     }
 
     protected function createFixer(): AbstractFixer {
