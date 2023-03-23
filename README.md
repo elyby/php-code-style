@@ -305,7 +305,7 @@ usages with native `::class` keyword, introduced in PHP 5.5.
 [ico-version]: https://img.shields.io/packagist/v/ely/php-code-style.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-Apache-green.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/ely/php-code-style.svg?style=flat-square
-[ico-build-status]: https://img.shields.io/github/workflow/status/elyby/php-code-style/CI.svg?style=flat-square
+[ico-build-status]: https://img.shields.io/github/actions/workflow/status/elyby/php-code-style/ci.yml?branch=master&style=flat-square
 
 [link-packagist]: https://packagist.org/packages/ely/php-code-style
 [link-contributors]: ../../contributors
