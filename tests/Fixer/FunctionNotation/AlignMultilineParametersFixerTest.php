@@ -17,8 +17,8 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
      */
     public function testBothTrue(string $expected, ?string $input = null): void {
         $this->fixer->configure([
-            'variables' => true,
-            'defaults' => true,
+            AlignMultilineParametersFixer::C_VARIABLES => true,
+            AlignMultilineParametersFixer::C_DEFAULTS => true,
         ]);
         $this->doTest($expected, $input);
     }
@@ -179,8 +179,8 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
      */
     public function testBothFalse(string $expected, ?string $input = null): void {
         $this->fixer->configure([
-            'variables' => false,
-            'defaults' => false,
+            AlignMultilineParametersFixer::C_VARIABLES => false,
+            AlignMultilineParametersFixer::C_DEFAULTS => false,
         ]);
         $this->doTest($expected, $input);
     }
@@ -200,8 +200,8 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
      */
     public function testBothNull(string $expected, ?string $input = null): void {
         $this->fixer->configure([
-            'variables' => null,
-            'defaults' => null,
+            AlignMultilineParametersFixer::C_VARIABLES => null,
+            AlignMultilineParametersFixer::C_DEFAULTS => null,
         ]);
         $this->doTest($expected, $input);
     }
@@ -209,6 +209,138 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
     public function provideNullCases(): iterable {
         foreach ($this->provideFalseCases() as $key => $case) {
             yield $key => [$case[0]];
+        }
+    }
+
+    /**
+     * @dataProvider provide80TrueCases
+     * @requires PHP 8.0
+     */
+    public function test80BothTrue(string $expected, ?string $input = null): void {
+        $this->fixer->configure([
+            AlignMultilineParametersFixer::C_VARIABLES => true,
+            AlignMultilineParametersFixer::C_DEFAULTS => true,
+        ]);
+        $this->doTest($expected, $input);
+    }
+
+    public function provide80TrueCases(): iterable {
+        yield 'constructor promotion, defaults' => [
+            '<?php
+            class Test {
+                public function __construct(
+                    public string  $string = "string",
+                    protected bool $bool   = true
+                ) {}
+            }
+            ',
+            '<?php
+            class Test {
+                public function __construct(
+                    public string $string = "string",
+                    protected bool $bool = true
+                ) {}
+            }
+            ',
+        ];
+    }
+
+    /**
+     * @dataProvider provideFalse80Cases
+     * @requires PHP 8.0
+     */
+    public function test80BothFalse(string $expected, ?string $input = null): void {
+        $this->fixer->configure([
+            AlignMultilineParametersFixer::C_VARIABLES => false,
+            AlignMultilineParametersFixer::C_DEFAULTS => false,
+        ]);
+        $this->doTest($expected, $input);
+    }
+
+    public function provideFalse80Cases(): iterable {
+        foreach ($this->provide80TrueCases() as $key => $case) {
+            if (isset($case[1])) {
+                yield $key => [$case[1], $case[0]];
+            } else {
+                yield $key => $case;
+            }
+        }
+    }
+
+    /**
+     * @dataProvider provide81TrueCases
+     * @requires PHP 8.1
+     */
+    public function test81BothTrue(string $expected, ?string $input = null): void {
+        $this->fixer->configure([
+            AlignMultilineParametersFixer::C_VARIABLES => true,
+            AlignMultilineParametersFixer::C_DEFAULTS => true,
+        ]);
+        $this->doTest($expected, $input);
+    }
+
+    public function provide81TrueCases(): iterable {
+        yield 'constructor promotion, readonly, defaults' => [
+            '<?php
+            class Test {
+                public function __construct(
+                    public readonly string  $string = "string",
+                    protected readonly bool $bool   = true
+                ) {}
+            }
+            ',
+            '<?php
+            class Test {
+                public function __construct(
+                    public readonly string $string = "string",
+                    protected readonly bool $bool = true
+                ) {}
+            }
+            ',
+        ];
+        yield 'partial constructor promotion, readonly, defaults' => [
+            '<?php
+            class Test {
+                public function __construct(
+                    readonly string $string = "string",
+                    int             $int    = 0,
+                    protected bool  $bool   = true,
+                                    $float  = 0.0,
+                ) {}
+            }
+            ',
+            '<?php
+            class Test {
+                public function __construct(
+                    readonly string $string = "string",
+                    int $int = 0,
+                    protected bool $bool = true,
+                    $float = 0.0,
+                ) {}
+            }
+            ',
+        ];
+    }
+
+    /**
+     * @dataProvider provideFalse81Cases
+     * @requires PHP 8.1
+     */
+    public function test81BothFalse(string $expected, ?string $input = null): void {
+        $this->fixer->configure([
+            AlignMultilineParametersFixer::C_VARIABLES => false,
+            AlignMultilineParametersFixer::C_DEFAULTS => false,
+        ]);
+        $this->doTest($expected, $input);
+    }
+
+    public function provideFalse81Cases(): iterable {
+        foreach ($this->provide81TrueCases() as $key => $case) {
+            if (isset($case[1])) {
+                yield $key => [$case[1], $case[0]];
+            } else {
+                yield $key => $case;
+            }
         }
     }
 

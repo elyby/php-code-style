@@ -14,14 +14,35 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer;
 use PhpCsFixer\Tokenizer\Analyzer\WhitespacesAnalyzer;
+use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use SplFileInfo;
 
 final class AlignMultilineParametersFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface {
 
-    private const C_VARIABLES = 'variables';
-    private const C_DEFAULTS = 'defaults';
+    /**
+     * @internal
+     */
+    public const C_VARIABLES = 'variables';
+    /**
+     * @internal
+     */
+    public const C_DEFAULTS = 'defaults';
+
+    private array $parameterModifiers;
+
+    public function __construct() {
+        parent::__construct();
+        $this->parameterModifiers = [
+            CT::T_CONSTRUCTOR_PROPERTY_PROMOTION_PUBLIC,
+            CT::T_CONSTRUCTOR_PROPERTY_PROMOTION_PROTECTED,
+            CT::T_CONSTRUCTOR_PROPERTY_PROMOTION_PRIVATE,
+        ];
+        if (defined('T_READONLY')) {
+            $this->parameterModifiers[] = T_READONLY;
+        }
+    }
 
     public function getDefinition(): FixerDefinitionInterface {
         return new FixerDefinition(
@@ -105,7 +126,7 @@ function test(
                 $typeAnalysis = $argument->getTypeAnalysis();
                 if ($typeAnalysis) {
                     $hasAtLeastOneTypedArgument = true;
-                    $typeLength = strlen($typeAnalysis->getName());
+                    $typeLength = $this->getFullTypeLength($tokens, $typeAnalysis->getStartIndex());
                     if ($typeLength > $longestType) {
                         $longestType = $typeLength;
                     }
@@ -124,24 +145,24 @@ function test(
                     if ($this->configuration[self::C_VARIABLES] === true) {
                         $typeLen = 0;
                         if ($argument->getTypeAnalysis() !== null) {
-                            $typeLen = strlen($argument->getTypeAnalysis()->getName());
+                            $typeLen = $this->getFullTypeLength($tokens, $argument->getTypeAnalysis()->getStartIndex());
                         }
 
                         $appendix = str_repeat(' ', $longestType - $typeLen + (int)$hasAtLeastOneTypedArgument);
                         if ($argument->hasTypeAnalysis()) {
-                            $whitespace = $appendix;
+                            $whitespaceToken = $appendix;
                         } else {
-                            $whitespace = $this->whitespacesConfig->getLineEnding() . $argsIndent . $appendix;
+                            $whitespaceToken = $this->whitespacesConfig->getLineEnding() . $argsIndent . $appendix;
                         }
                     } else {
                         if ($argument->hasTypeAnalysis()) {
-                            $whitespace = ' ';
+                            $whitespaceToken = ' ';
                         } else {
-                            $whitespace = $this->whitespacesConfig->getLineEnding() . $argsIndent;
+                            $whitespaceToken = $this->whitespacesConfig->getLineEnding() . $argsIndent;
                         }
                     }
 
-                    $tokens->ensureWhitespaceAtIndex($whitespaceIndex, 0, $whitespace);
+                    $tokens->ensureWhitespaceAtIndex($whitespaceIndex, 0, $whitespaceToken);
                 }
 
                 if ($this->configuration[self::C_DEFAULTS] !== null) {
@@ -160,6 +181,30 @@ function test(
                 }
             }
         }
+    }
+
+    private function getFullTypeLength(Tokens $tokens, int $typeIndex): int {
+        /** @var \PhpCsFixer\Tokenizer\Token $typeToken */
+        $typeToken = $tokens[$typeIndex];
+        $typeLength = strlen($typeToken->getContent());
+
+        /** @var \PhpCsFixer\Tokenizer\Token $possiblyReadonlyToken */
+        $possiblyReadonlyToken = $tokens[$typeIndex - 2];
+        if ($possiblyReadonlyToken->isGivenKind($this->parameterModifiers)) {
+            /** @var \PhpCsFixer\Tokenizer\Token $whitespaceToken */
+            $whitespaceToken = $tokens[$typeIndex - 1];
+            $typeLength += strlen($possiblyReadonlyToken->getContent() . $whitespaceToken->getContent());
+        }
+
+        /** @var \PhpCsFixer\Tokenizer\Token $possiblyPromotionToken */
+        $possiblyPromotionToken = $tokens[$typeIndex - 4];
+        if ($possiblyPromotionToken->isGivenKind($this->parameterModifiers)) {
+            /** @var \PhpCsFixer\Tokenizer\Token $whitespaceToken */
+            $whitespaceToken = $tokens[$typeIndex - 3];
+            $typeLength += strlen($possiblyPromotionToken->getContent() . $whitespaceToken->getContent());
+        }
+
+        return $typeLength;
     }
 
 }
