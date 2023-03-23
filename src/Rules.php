@@ -214,6 +214,10 @@ class Rules {
             ],
 
             // Our custom or extended fixers
+            'Ely/align_multiline_parameters' => [
+                'variables' => false,
+                'defaults' => false,
+            ],
             'Ely/blank_line_around_class_body' => [
                 'apply_to_anonymous_classes' => false,
             ],

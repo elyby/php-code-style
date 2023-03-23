@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Enh #12: Implemented `Ely\align_multiline_parameters` fixer.
+- Enabled `Ely\align_multiline_parameters` for Ely.by codestyle in `['types' => false, 'defaults' => false]` mode.
+
 ### Fixed
 - Bug #10: `Ely/blank_line_before_return` don't treat interpolation curly bracket as beginning of the scope.
 - Bug #9: `Ely/line_break_after_statements` add space before next meaningful line of code and skip comments.

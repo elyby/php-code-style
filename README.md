@@ -43,12 +43,14 @@ vendor/bin/php-cs-fixer fix
 ### Configuration
 
 You can pass a custom set of rules to the `\Ely\CS\Config::create()` call. For example, it can be used to validate a
-project with PHP 7.0 compatibility:
+project with PHP 7.4 compatibility:
 
 ```php
 <?php
 return \Ely\CS\Config::create([
-    'visibility_required' => ['property', 'method'],
+    'trailing_comma_in_multiline' => [
+        'elements' => ['arrays', 'arguments'],
+    ],
 ])->setFinder($finder);
 ```
 
@@ -76,12 +78,15 @@ class Foo extends Bar implements FooInterface {
     private const SAMPLE_1 = 123;
     private const SAMPLE_2 = 321;
 
-    public $field1;
+    public Typed $field1;
 
     public $field2;
 
-    public function sampleFunction(int $a, int $b = null): array {
-        if ($a === $b) {
+    public function sampleFunction(
+        int $a,
+        private readonly int $b = null,
+    ): array {
+        if ($a === $this->b) {
             $result = bar();
         } else {
             $result = BazClass::bar($this->field1, $this->field2);
@@ -89,7 +94,7 @@ class Foo extends Bar implements FooInterface {
 
         return $result;
     }
-    
+
     public function setToNull(): self {
         $this->field1 = null;
         return $this;
@@ -154,6 +159,16 @@ class Foo extends Bar implements FooInterface {
   echo 'the next statement is here';
   ```
 
+* There MUST be no alignment around multiline function parameters.
+  
+  ```php
+  <?php
+  function foo(
+      string $input,
+      int $key = 0,
+  ): void {}
+  ```
+
 ## Using our fixers
 
 First of all, you must install Ely.by PHP-CS-Fixer package as described in the [installation chapter](#installation).
@@ -168,6 +183,31 @@ return \PhpCsFixer\Config::create()
 ```
 
 And then you'll be able to use our custom rules.
+
+### `Ely/align_multiline_parameters`
+
+Forces aligned or not aligned multiline function parameters:
+
+```diff
+--- Original
++++ New
+@@ @@
+  function foo(
+      string $string,
+-     int $index = 0,
+-     $arg = 'no type',
++     int    $index  = 0,
++            $arg    = 'no type',
+  ): void {}
+```
+
+**Configuration:**
+
+* `variables` - when set to `true`, forces variables alignment. On `false` forces strictly no alignment.
+  You can set it to `null` to disable touching of variables. **Default**: `true`.
+
+* `defaults` - when set to `true`, forces defaults alignment. On `false` forces strictly no alignment.
+  You can set it to `null` to disable touching of defaults. **Default**: `false`.
 
 ### `Ely/blank_line_around_class_body`
 
