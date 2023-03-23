@@ -16,13 +16,25 @@ use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
+use SplFileInfo;
 
 /**
- * This is copy of the PR https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/3688
+ * This fixer conflicts with the CurlyBracesPositionFixer (which is part of the BracesFixer),
+ * because CurlyBracesPositionFixer always tries to remove any new lines between class beginning
+ * and the first meaningful statement. And then this fixer restores those spaces back.
  *
- * @author ErickSkrauch <erickskrauch@ely.by>
+ * That is the reason, why you always see a "braces, Ely/blank_line_around_class_body" in verbose output.
  */
 final class BlankLineAroundClassBodyFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface {
+
+    /**
+     * @internal
+     */
+    public const C_BLANK_LINES_COUNT = 'blank_lines_count';
+    /**
+     * @internal
+     */
+    public const C_APPLY_TO_ANONYMOUS_CLASSES = 'apply_to_anonymous_classes';
 
     public function getDefinition(): FixerDefinitionInterface {
         return new FixerDefinition(
@@ -48,7 +60,7 @@ new class extends Foo {
 
 };
 ',
-                    ['apply_to_anonymous_classes' => false],
+                    [self::C_APPLY_TO_ANONYMOUS_CLASSES => false],
                 ),
                 new CodeSample(
                     '<?php
@@ -58,74 +70,75 @@ new class extends Foo {
     }
 };
 ',
-                    ['apply_to_anonymous_classes' => true],
+                    [self::C_APPLY_TO_ANONYMOUS_CLASSES => true],
                 ),
             ],
         );
-    }
-
-    public function getPriority(): int {
-        // should be run after the BracesFixer
-        return -26;
     }
 
     public function isCandidate(Tokens $tokens): bool {
         return $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds());
     }
 
-    protected function applyFix(\SplFileInfo $file, Tokens $tokens): void {
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void {
         $analyzer = new TokensAnalyzer($tokens);
+        /** @var Token $token */
         foreach ($tokens as $index => $token) {
             if (!$token->isClassy()) {
                 continue;
             }
 
-            $countLines = $this->configuration['blank_lines_count'];
-            if (!$this->configuration['apply_to_anonymous_classes'] && $analyzer->isAnonymousClass($index)) {
+            $countLines = $this->configuration[self::C_BLANK_LINES_COUNT];
+            if (!$this->configuration[self::C_APPLY_TO_ANONYMOUS_CLASSES] && $analyzer->isAnonymousClass($index)) {
                 $countLines = 0;
             }
 
             $startBraceIndex = $tokens->getNextTokenOfKind($index, ['{']);
-            if ($tokens[$startBraceIndex + 1]->isWhitespace()) {
+            /** @var Token $nextAfterBraceToken */
+            $nextAfterBraceToken = $tokens[$startBraceIndex + 1];
+            if ($nextAfterBraceToken->isWhitespace()) {
                 $nextStatementIndex = $tokens->getNextMeaningfulToken($startBraceIndex);
-                // Traits should be placed right after a class opening brace,
-                if ($tokens[$nextStatementIndex]->getContent() !== 'use') {
-                    $this->fixBlankLines($tokens, $startBraceIndex + 1, $countLines);
+                /** @var Token $nextStatementToken */
+                $nextStatementToken = $tokens[$nextStatementIndex];
+                // Traits should be placed right after a class opening brace
+                if ($nextStatementToken->getContent() !== 'use') {
+                    $this->ensureBlankLines($tokens, $startBraceIndex + 1, $countLines);
                 }
             }
 
             $endBraceIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $startBraceIndex);
             if ($tokens[$endBraceIndex - 1]->isWhitespace()) {
-                $this->fixBlankLines($tokens, $endBraceIndex - 1, $countLines);
+                $this->ensureBlankLines($tokens, $endBraceIndex - 1, $countLines);
             }
         }
     }
 
     protected function createConfigurationDefinition(): FixerConfigurationResolverInterface {
         return new FixerConfigurationResolver([
-            (new FixerOptionBuilder('blank_lines_count', 'adjusts an amount of the blank lines.'))
+            (new FixerOptionBuilder(self::C_BLANK_LINES_COUNT, 'adjusts the number of blank lines.'))
                 ->setAllowedTypes(['int'])
                 ->setDefault(1)
                 ->getOption(),
-            (new FixerOptionBuilder('apply_to_anonymous_classes', 'whether this fixer should be applied to anonymous classes.'))
+            (new FixerOptionBuilder(self::C_APPLY_TO_ANONYMOUS_CLASSES, 'whether this fixer should be applied to anonymous classes.'))
                 ->setAllowedTypes(['bool'])
                 ->setDefault(true)
                 ->getOption(),
         ]);
     }
 
-    private function fixBlankLines(Tokens $tokens, int $index, int $countLines): void {
+    private function ensureBlankLines(Tokens $tokens, int $index, int $countLines): void {
         $content = $tokens[$index]->getContent();
-        // Apply fix only in the case when the count lines do not equals to expected
+        // Apply fix only when the lines count doesn't equal to expected
+        // Don't check for \r\n sequence since it's still contains \n part
         if (substr_count($content, "\n") === $countLines + 1) {
             return;
         }
 
-        // The final bit of the whitespace must be the next statement's indentation
+        // Use regexp to extract contents between line breaks
         Preg::matchAll('/[^\n\r]+[\r\n]*/', $content, $matches);
         $lines = $matches[0];
         $eol = $this->whitespacesConfig->getLineEnding();
-        $tokens[$index] = new Token([T_WHITESPACE, str_repeat($eol, $countLines + 1) . end($lines)]);
+        $tokens->ensureWhitespaceAtIndex($index, 0, str_repeat($eol, $countLines + 1) . end($lines));
     }
 
 }
