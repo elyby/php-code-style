@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Enh #12: Implemented `Ely\align_multiline_parameters` fixer.
 - Enabled `Ely\align_multiline_parameters` for Ely.by codestyle in `['types' => false, 'defaults' => false]` mode.
+- Enabled
+  [`PhpCsFixerCustomFixers/multiline_promoted_properties`](https://github.com/kubawerlos/php-cs-fixer-custom-fixers#multilinepromotedpropertiesfixer)
+  fixer for Ely.by codestyle in 2+ parameters mode.
 
 ### Fixed
 - Bug #10: `Ely/blank_line_before_return` don't treat interpolation curly bracket as beginning of the scope.

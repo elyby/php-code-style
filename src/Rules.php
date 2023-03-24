@@ -213,6 +213,11 @@ class Rules {
                 'space_multiple_catch' => 'none',
             ],
 
+            // kubawerlos fixers
+            'PhpCsFixerCustomFixers/multiline_promoted_properties' => [
+                'minimum_number_of_parameters' => 2,
+            ],
+
             // Our custom or extended fixers
             'Ely/align_multiline_parameters' => [
                 'variables' => false,
