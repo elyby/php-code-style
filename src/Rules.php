@@ -228,6 +228,7 @@ class Rules {
             ],
             'Ely/blank_line_before_return' => true,
             'Ely/line_break_after_statements' => true,
+            'Ely/multiline_if_statement_braces' => true,
             'Ely/remove_class_name_method_usages' => true,
         ], $overwrittenRules);
     }

@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Enh #12: Implemented `Ely\align_multiline_parameters` fixer.
+- Enh #13: Implemented `Ely\multiline_if_statement_braces` fixer.
 - Enabled `Ely\align_multiline_parameters` for Ely.by codestyle in `['types' => false, 'defaults' => false]` mode.
+- Enabled `Ely\multiline_if_statement_braces` for Ely.by codestyle in `['keep_on_own_line' => true]` mode.
 - Enabled
   [`PhpCsFixerCustomFixers/multiline_promoted_properties`](https://github.com/kubawerlos/php-cs-fixer-custom-fixers#multilinepromotedpropertiesfixer)
   fixer for Ely.by codestyle in 2+ parameters mode.
