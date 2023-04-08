@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.5.0] - 2023-04-08
 ### Added
 - Enh #12: Implemented `Ely\align_multiline_parameters` fixer.
 - Enh #13: Implemented `Ely\multiline_if_statement_braces` fixer.
@@ -147,7 +149,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - First release
 
-[Unreleased]: https://github.com/elyby/php-code-style/compare/0.4.0...HEAD
+[Unreleased]: https://github.com/elyby/php-code-style/compare/0.5.0...HEAD
+[0.5.0]: https://github.com/elyby/php-code-style/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/elyby/php-code-style/compare/0.3.0...0.4.0
 [0.3.0]: https://github.com/elyby/php-code-style/compare/0.2.1...0.3.0
 [0.2.1]: https://github.com/elyby/php-code-style/compare/0.2.0...0.2.1
