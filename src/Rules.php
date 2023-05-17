@@ -34,11 +34,10 @@ final class Rules {
             'whitespace_after_comma_in_array' => true,
 
             // Basic
-            'braces' => [
-                'allow_single_line_anonymous_class_with_empty_body' => true,
-                'position_after_functions_and_oop_constructs' => 'same',
+            'curly_braces_position' => [
+                'functions_opening_brace' => 'same_line',
+                'classes_opening_brace' => 'same_line',
             ],
-            'no_multiple_statements_per_line' => true,
             'no_trailing_comma_in_singleline' => true,
             'non_printable_character' => [
                 'use_escape_sequences_in_strings' => true,
@@ -71,6 +70,11 @@ final class Rules {
                     'method' => 'one',
                     'property' => 'one',
                 ],
+            ],
+            'class_definition' => [
+                'single_item_single_line' => true,
+                'space_before_parenthesis' => true,
+                'inline_constructor_arguments' => false,
             ],
             'no_null_property_initialization' => true,
             'no_php4_constructor' => true,
@@ -133,6 +137,7 @@ final class Rules {
             'dir_constant' => true,
             'function_to_constant' => true,
             'is_null' => true,
+            'single_space_around_construct' => true,
 
             // List Notation
             'list_syntax' => true,
@@ -207,6 +212,23 @@ final class Rules {
             'array_indentation' => true,
             'compact_nullable_typehint' => true,
             'method_chaining_indentation' => true,
+            'no_extra_blank_lines' => [
+                'tokens' => [
+                    'attribute',
+                    'break',
+                    'case',
+                    'continue',
+                    'curly_brace_block',
+                    'default',
+                    'extra',
+                    'parenthesis_brace_block',
+                    'return',
+                    'square_brace_block',
+                    'switch',
+                    'throw',
+                    'use',
+                ],
+            ],
             'no_spaces_around_offset' => true,
             'no_whitespace_in_blank_line' => true,
             'types_spaces' => [

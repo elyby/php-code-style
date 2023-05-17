@@ -5,8 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `single_space_around_construct` fixer.
+
+### Changed
+- `friendsofphp/php-cs-fixer` version bumped to `^3.16`.
+
 ### Removed
-- Iss #16: All custom fixers have been moved to the [separate repository](https://github.com/erickskrauch/php-cs-fixer-custom-fixers)
+- Iss #16: All custom fixers have been moved to the [separate repository](https://github.com/erickskrauch/php-cs-fixer-custom-fixers).
+- Usage of the `braces_fixer` since it's deprecated.
 
 ## [0.5.0] - 2023-04-08
 ### Added
