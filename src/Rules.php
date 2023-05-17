@@ -73,7 +73,6 @@ final class Rules {
             ],
             'class_definition' => [
                 'single_item_single_line' => true,
-                'space_before_parenthesis' => true,
                 'inline_constructor_arguments' => false,
             ],
             'no_null_property_initialization' => true,
