@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a686a5f32b74f77dd2a041976fd766f9",
+    "content-hash": "9406ba5bf4d3606b7bf5eae6d361eec4",
     "packages": [
         {
             "name": "composer/pcre",
@@ -375,16 +375,16 @@
         },
         {
             "name": "erickskrauch/php-cs-fixer-custom-fixers",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erickskrauch/php-cs-fixer-custom-fixers.git",
-                "reference": "62c2a014cb9a8cf7665c82040a5d19d88ef8e583"
+                "reference": "85b96116e757dc0a886600e1af06b1a0222375b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erickskrauch/php-cs-fixer-custom-fixers/zipball/62c2a014cb9a8cf7665c82040a5d19d88ef8e583",
-                "reference": "62c2a014cb9a8cf7665c82040a5d19d88ef8e583",
+                "url": "https://api.github.com/repos/erickskrauch/php-cs-fixer-custom-fixers/zipball/85b96116e757dc0a886600e1af06b1a0222375b3",
+                "reference": "85b96116e757dc0a886600e1af06b1a0222375b3",
                 "shasum": ""
             },
             "require": {
@@ -392,7 +392,7 @@
                 "php": "^7.4 || ^8.0"
             },
             "require-dev": {
-                "ely/php-code-style": "^0.5",
+                "ely/php-code-style": "dev-master",
                 "ergebnis/composer-normalize": "^2.28",
                 "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.2",
                 "phpspec/prophecy": "^1.15",
@@ -402,7 +402,6 @@
                 "phpunitgoodpractices/traits": "^1.9.1",
                 "symfony/phpunit-bridge": "^6.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -427,9 +426,9 @@
             ],
             "support": {
                 "issues": "https://github.com/erickskrauch/php-cs-fixer-custom-fixers/issues",
-                "source": "https://github.com/erickskrauch/php-cs-fixer-custom-fixers/tree/master"
+                "source": "https://github.com/erickskrauch/php-cs-fixer-custom-fixers/tree/1.0.0"
             },
-            "time": "2023-05-17T17:44:54+00:00"
+            "time": "2023-05-17T18:01:48+00:00"
         },
         {
             "name": "friendsofphp/php-cs-fixer",
@@ -2622,9 +2621,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "erickskrauch/php-cs-fixer-custom-fixers": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

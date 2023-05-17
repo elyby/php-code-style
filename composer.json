@@ -20,7 +20,7 @@
     "homepage": "https://github.com/elyby/php-code-style",
     "require": {
         "php": "^7.4 || ^8.0",
-        "erickskrauch/php-cs-fixer-custom-fixers": "dev-master#62c2a014cb9a8cf7665c82040a5d19d88ef8e583",
+        "erickskrauch/php-cs-fixer-custom-fixers": "^1",
         "friendsofphp/php-cs-fixer": "^3.13",
         "kubawerlos/php-cs-fixer-custom-fixers": "^3.13",
         "symfony/polyfill-php80": "^1.15"
