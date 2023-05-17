@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `single_space_around_construct` fixer.
+- `no_extra_blank_lines` fixer.
 
 ### Changed
 - `friendsofphp/php-cs-fixer` version bumped to `^3.16`.
