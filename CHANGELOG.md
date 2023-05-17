@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Removed
+- Iss #16: All custom fixers have been moved to the [separate repository](https://github.com/erickskrauch/php-cs-fixer-custom-fixers)
 
 ## [0.5.0] - 2023-04-08
 ### Added

@@ -20,29 +20,17 @@
     "homepage": "https://github.com/elyby/php-code-style",
     "require": {
         "php": "^7.4 || ^8.0",
+        "erickskrauch/php-cs-fixer-custom-fixers": "dev-master#62c2a014cb9a8cf7665c82040a5d19d88ef8e583",
         "friendsofphp/php-cs-fixer": "^3.13",
         "kubawerlos/php-cs-fixer-custom-fixers": "^3.13",
         "symfony/polyfill-php80": "^1.15"
     },
     "require-dev": {
-        "ergebnis/composer-normalize": "^2.28",
-        "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.2",
-        "phpspec/prophecy": "^1.15",
-        "phpspec/prophecy-phpunit": "^2.0",
-        "phpunit/phpunit": "^9.5",
-        "phpunitgoodpractices/polyfill": "^1.5",
-        "phpunitgoodpractices/traits": "^1.9.1",
-        "symfony/phpunit-bridge": "^6.0"
+        "ergebnis/composer-normalize": "^2.28"
     },
     "autoload": {
         "psr-4": {
             "Ely\\CS\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Ely\\CS\\Test\\": "tests/",
-            "PhpCsFixer\\Tests\\": "vendor/friendsofphp/php-cs-fixer/tests/"
         }
     },
     "config": {
@@ -51,6 +39,7 @@
         },
         "preferred-install": {
             "friendsofphp/php-cs-fixer": "source"
-        }
+        },
+        "sort-packages": true
     }
 }

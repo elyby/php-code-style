@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Ely\CS;
 
-class Rules {
+final class Rules {
 
     public static function create(array $overwrittenRules = []): array {
         return array_merge([
@@ -219,17 +219,17 @@ class Rules {
             ],
 
             // Our custom or extended fixers
-            'Ely/align_multiline_parameters' => [
+            'ErickSkrauch/align_multiline_parameters' => [
                 'variables' => false,
                 'defaults' => false,
             ],
-            'Ely/blank_line_around_class_body' => [
+            'ErickSkrauch/blank_line_around_class_body' => [
                 'apply_to_anonymous_classes' => false,
             ],
-            'Ely/blank_line_before_return' => true,
-            'Ely/line_break_after_statements' => true,
-            'Ely/multiline_if_statement_braces' => true,
-            'Ely/remove_class_name_method_usages' => true,
+            'ErickSkrauch/blank_line_before_return' => true,
+            'ErickSkrauch/line_break_after_statements' => true,
+            'ErickSkrauch/multiline_if_statement_braces' => true,
+            'ErickSkrauch/remove_class_name_method_usages' => true,
         ], $overwrittenRules);
     }
 

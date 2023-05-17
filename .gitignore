@@ -1,5 +1,4 @@
 vendor
 dist
-.phpunit.result.cache
 .php-cs-fixer
 .php-cs-fixer.cache
