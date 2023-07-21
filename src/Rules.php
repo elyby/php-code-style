@@ -83,7 +83,15 @@ final class Rules {
             'visibility_required' => true,
 
             // Comment
-            'comment_to_phpdoc' => true,
+            'comment_to_phpdoc' => [
+                'ignored_tags' => [
+                    'todo',
+                    // https://phpstan.org/user-guide/ignoring-errors
+                    'phpstan-ignore',
+                    'phpstan-ignore-line',
+                    'phpstan-ignore-next-line',
+                ],
+            ],
             'multiline_comment_opening_closing' => true,
             'no_empty_comment' => true,
             'single_line_comment_spacing' => true,

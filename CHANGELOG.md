@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- `comment_to_phpdoc` no longer fixes PHPStan error suppression and the `todo` tag.
 
 ## [1.0.0] - 2023-05-17
 ### Added
