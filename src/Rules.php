@@ -5,6 +5,7 @@ namespace Ely\CS;
 
 final class Rules {
 
+    // Last fixers review has been done on PHP-CS-Fixer v3.48
     public static function create(array $overwrittenRules = []): array {
         return array_merge([
             '@PSR2' => true,
@@ -33,8 +34,11 @@ final class Rules {
             'trim_array_spaces' => true,
             'whitespace_after_comma_in_array' => true,
 
+            // Attribute notation
+            'attribute_empty_parentheses' => true,
+
             // Basic
-            'curly_braces_position' => [
+            'braces_position' => [
                 'functions_opening_brace' => 'same_line',
                 'classes_opening_brace' => 'same_line',
             ],
@@ -42,6 +46,7 @@ final class Rules {
             'non_printable_character' => [
                 'use_escape_sequences_in_strings' => true,
             ],
+            'numeric_literal_separator' => true,
             'octal_notation' => PHP_MAJOR_VERSION >= 8 && PHP_MINOR_VERSION >= 1,
             'psr_autoloading' => true,
 
@@ -52,7 +57,7 @@ final class Rules {
             'magic_constant_casing' => true,
             'magic_method_casing' => true,
             'native_function_casing' => true,
-            'native_function_type_declaration_casing' => true,
+            'native_type_declaration_casing' => true,
 
             // Cast Notation
             'cast_spaces' => [
@@ -123,7 +128,6 @@ final class Rules {
                 'closure_function_spacing' => 'none',
                 'closure_fn_spacing' => 'none',
             ],
-            'function_typehint_space' => true,
             'implode_call' => true,
             'lambda_not_used_import' => true,
             'return_type_declaration' => true,
@@ -144,6 +148,7 @@ final class Rules {
             'dir_constant' => true,
             'function_to_constant' => true,
             'is_null' => true,
+            'nullable_type_declaration' => true,
             'single_space_around_construct' => true,
 
             // List Notation
@@ -163,7 +168,7 @@ final class Rules {
                 'spacing' => 'one',
             ],
             'logical_operators' => true,
-            'new_with_braces' => [
+            'new_with_parentheses' => [
                 'anonymous_class' => false,
             ],
             'no_useless_concat_operator' => true,
@@ -181,6 +186,7 @@ final class Rules {
 
             // PHPUnit
             'php_unit_construct' => true,
+            'php_unit_data_provider_return_type' => true,
             'php_unit_dedicate_assert_internal_type' => true,
             'php_unit_expectation' => true,
             'php_unit_fqcn_annotation' => true,
@@ -194,6 +200,9 @@ final class Rules {
             'php_unit_test_case_static_method_calls' => [
                 'call_type' => 'this',
             ],
+
+            // PHPDoc
+            'align_multiline_comment' => true,
 
             // Return Notation
             'no_useless_return' => true,
@@ -217,7 +226,7 @@ final class Rules {
 
             // Whitespace
             'array_indentation' => true,
-            'compact_nullable_typehint' => true,
+            'compact_nullable_type_declaration' => true,
             'method_chaining_indentation' => true,
             'no_extra_blank_lines' => [
                 'tokens' => [
@@ -238,6 +247,7 @@ final class Rules {
             ],
             'no_spaces_around_offset' => true,
             'no_whitespace_in_blank_line' => true,
+            'type_declaration_spaces' => true,
             'types_spaces' => [
                 'space_multiple_catch' => 'none',
             ],
@@ -249,7 +259,7 @@ final class Rules {
 
             // Our custom or extended fixers
             'ErickSkrauch/align_multiline_parameters' => [
-                'variables' => false,
+                'variables' => null,
                 'defaults' => false,
             ],
             'ErickSkrauch/blank_line_around_class_body' => [

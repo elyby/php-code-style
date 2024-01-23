@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `align_multiline_comment` fixer.
+- `nullable_type_declaration` fixer.
+- `php_unit_data_provider_return_type` fixer.
+- `attribute_empty_parentheses` fixer.
+- `numeric_literal_separator` fixer.
+
+### Fixed
+- Replace `compact_nullable_typehint` with `compact_nullable_type_declaration` (deprecated).
+- Replace `curly_braces_position` with `braces_position` (deprecated).
+- Replace `function_typehint_space` with `type_declaration_spaces` (deprecated).
+- Replace `native_function_type_declaration_casing` with `native_type_declaration_casing` (deprecated).
+- Replace `new_with_braces` with `new_with_parentheses` (deprecated).
 
 ## [1.0.1] - 2023-07-21
 ### Changed
