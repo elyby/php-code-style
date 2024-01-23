@@ -77,9 +77,9 @@ class Foo extends Bar implements FooInterface {
     private const SAMPLE_1 = 123;
     private const SAMPLE_2 = 321;
 
-    public Typed $field1;
+    public $field1;
 
-    public $field2;
+    public Typed $field2;
 
     public function sampleFunction(
         int $a,
